@@ -49,7 +49,7 @@ def get_premium_apps(df: pd.DataFrame) -> pd.DataFrame:
 def get_discontinued_apps(df: pd.DataFrame) -> pd.Series:
     parsed_dates = pd.to_datetime(df[LAST_UPDATED_FIELD], errors='coerce')
 
-    valid_dates = parsed_dates.notna()
-    most_recent = parsed_dates[valid_dates].max()
+    not_null_dates = parsed_dates.notna()
+    most_recent = parsed_dates[not_null_dates].max()
 
-    return valid_dates & ((most_recent - parsed_dates) > timedelta(days=365))
+    return not_null_dates & ((most_recent - parsed_dates) > timedelta(days=365))
